@@ -15,6 +15,17 @@ pipeline {
             }
         }
 
+        stage('Testing') {
+            steps {
+                script {
+                    docker.image('mongo:latest').withRun('-p 27017:27017 --name mongodb-test -d') { c ->
+                        sh 'npm install'
+                        sh 'npm test'
+                    }
+                }
+            }
+        }
+
         stage ("Build docker image") {
             steps {
                 script {
