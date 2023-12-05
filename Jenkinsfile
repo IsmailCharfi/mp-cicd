@@ -18,7 +18,7 @@ pipeline {
         stage ("Build docker image") {
             steps {
                 script {
-                    docker.build(REPOSITORY_NAME, "-f Dockerfile .")
+                    docker.build(REPOSITORY_NAME, ".")
                 }
             }
         }
