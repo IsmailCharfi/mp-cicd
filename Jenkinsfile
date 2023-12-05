@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS_ID = "dockerhub"
         REPOSITORY_NAME = "ismailcharfi/mp-cicd:latest"
+        TEST_DATABASE_CONTAINER = "mongodb-test"
     }
     
     stages {
@@ -18,10 +19,9 @@ pipeline {
         stage('Testing') {
             steps {
                 script {
-                    docker.image('mongo:latest').withRun('-p 27017:27017 --name mongodb-test -d') { c ->
-                        sh 'npm install'
-                        sh 'npm test'
-                    }
+                    docker.image('mongo:latest').run('-p 27017:27017 --name %TEST_DATABASE_CONTAINER% -d')
+                    sh 'npm install'
+                    sh 'npm test'
                 }
             }
         }
@@ -41,6 +41,15 @@ pipeline {
                         docker.image(REPOSITORY_NAME).push()
                     }
                 }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                sh 'docker stop your-container-name || true'
+                sh 'docker rm your-container-name || true'
             }
         }
     }
