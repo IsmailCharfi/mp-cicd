@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5050:5050"
+    depends_on:
+      - mongodb
+    environment:
+      PORT: 5050
+      DB_URL: mongodb://mongodb:27017/mp
+  mongodb:
+    image: "mongo"
+    ports:
+      - "27017:27017"
