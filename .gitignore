@@ -1,0 +1,16 @@
+node_modules
+.env
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+.terraform/
+terraform.log
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+
+# Editor-specific
+.vscode/
+.idea/
