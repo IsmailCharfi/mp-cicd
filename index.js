@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "src", "app", "dist")));
 app.use("/api", router);
 
-const PORT = process.env.PORT ?? 5050;
+const PORT = process.env.TEST_MODE ? 5051 : process.env.PORT ?? 5050;
 const DB_URL = process.env.DB_URL ?? "mongodb://127.0.0.1:27017/mp";
 
 mongoose

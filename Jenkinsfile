@@ -47,8 +47,7 @@ pipeline {
     post {
         always {
             script {
-                sh 'docker stop mongodb-test || true'
-                sh 'docker rm mongodb-test || true'
+                sh 'docker-compose down'
             }
         }
     }
