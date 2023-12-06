@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Testing') {
+        stage('Testing And sending reports by mail') {
             steps {
                 script {
                     sh 'docker-compose up -d'
@@ -28,7 +28,7 @@ pipeline {
         stage ("Build docker image") {
             steps {
                 script {
-                    docker.build(REPOSITORY_NAME, ".")
+                    docker.build(REPOSITORY_NAME, "-f Dockerfile.prod .")
                 }
             }
         }

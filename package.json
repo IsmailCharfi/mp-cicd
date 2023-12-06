@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "cross-env TEST_MODE=1 mocha && cross-env TEST_MODE=0",
+    "test": "cross-env TEST_MODE=1 node test.js && cross-env TEST_MODE=0",
+    "send-report-email": "node sendmail.js",
     "serve": "cd src/app && vue-cli-service serve",
     "build": "cd src/app && vue-cli-service build",
     "lint": "cd src/app && vue-cli-service lint"
@@ -16,7 +17,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "mocha-email-reporter": "^1.1.0",
     "mongoose": "^8.0.2",
+    "nodemailer": "^6.9.7",
     "object-path": "^0.11.5",
     "toastify-js": "^1.12.0",
     "vue": "^2.6.14",

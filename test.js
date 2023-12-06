@@ -1,84 +1,54 @@
-const chai = require("chai");
-const chaiHttp = require("chai-http");
-const { app, server } = require("./index");
-const mongoose = require("mongoose");
+const Mocha = require("mocha");
+const fs = require("fs");
+const nodemailer = require("nodemailer");
+const EmailReporter = require('mocha-email-reporter');
 
-chai.use(chaiHttp);
-const expect = chai.expect;
+function readFileOrEmptyString(filePath) {
+  try {
+    return fs.readFileSync(filePath, "utf8");
+  } catch (err) {
+    return "";
+  }
+}
 
-describe("Todo API", () => {
-  it("should get all todos", (done) => {
-    chai
-      .request(app)
-      .get("/api/todos")
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an("array");
-        done();
-      });
-  });
+const mocha = new Mocha();
 
-  it("should add a new todo", (done) => {
-    const todo = { title: "New Task" };
+mocha.addFile("unit-tests.js");
+mocha.reporter(EmailReporter, { output: "test-report.html" });
 
-    chai
-      .request(app)
-      .post("/api/todos")
-      .send(todo)
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body)
-          .to.have.property("message")
-          .equal("Todo added successfully");
-        done();
-      });
-  });
+mocha.run((failures) => {
+  const reportPath = 'test-report.html';
+  const testReport = readFileOrEmptyString(reportPath);
 
-  it("should delete the first todo if todos are not empty", (done) => {
-    chai
-      .request(app)
-      .get("/api/todos")
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        const todos = res.body;
+  if (testReport.length) {
+    const transporter = nodemailer.createTransport({
+      host: "charfi.me",
+      port: 25,
+      auth: {
+        user: "mp@charfi.me",
+        pass: "#Ismail123456",
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
 
-        if (todos.length > 0) {
-          const todoIdToDelete = todos[0].id;
+    const mailOptions = {
+      from: "mp@charfi.me",
+      to: "ismail@charfi.me",
+      subject: `Test Reports - ${new Date().toLocaleString()}`,
+      html: testReport,
+    };
 
-          chai
-            .request(app)
-            .delete(`/api/todos/${todoIdToDelete}`)
-            .end((err, res) => {
-              expect(res).to.have.status(200);
-              expect(res.body)
-                .to.have.property("message")
-                .equal("Todo deleted successfully");
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.error("Error:", error);
+      }
+      console.log("Email sent:", info.response);
+    });
+  } else {
+    console.log("no report");
+  }
 
-              chai
-                .request(app)
-                .get(`/api/todos/${todoIdToDelete}`)
-                .end((err, res) => {
-                  expect(res).to.have.status(404);
-                  done();
-                });
-            });
-        } else {
-          done();
-        }
-      });
-  });
-
-  after((done) => {
-    mongoose.connection
-      .close()
-      .then(() => {
-        console.log("Mongoose connection closed");
-        server.close(() => console.log("Server closed"));
-        done();
-      })
-      .catch((err) => {
-        console.error("Error closing Mongoose connection:", err);
-        done(err);
-      });
-  });
+  process.exitCode = failures ? 1 : 0;
 });
