@@ -4,7 +4,6 @@
   "scripts": {
     "start": "nodemon index.js",
     "test": "cross-env TEST_MODE=1 node test.js && cross-env TEST_MODE=0",
-    "send-report-email": "node sendmail.js",
     "serve": "cd src/app && vue-cli-service serve",
     "build": "cd src/app && vue-cli-service build",
     "lint": "cd src/app && vue-cli-service lint"
