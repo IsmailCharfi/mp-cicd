@@ -18,9 +18,9 @@ pipeline {
         stage('Testing') {
             steps {
                 script {
-                    docker.image('mongo:latest').run('-p 27017:27017 --name mongodb-test -d')
-                    sh 'npm install'
-                    sh 'npm test'
+                    sh 'docker-compose up -d'
+                    sh 'docker-compose exec app sh -c "npm test"'
+                    sh 'docker-compose up -d'
                 }
             }
         }
