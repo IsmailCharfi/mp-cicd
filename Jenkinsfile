@@ -20,7 +20,6 @@ pipeline {
                 script {
                     sh 'docker-compose up -d'
                     sh 'docker exec mp-app npm test'
-                    sh 'docker-compose down'
                 }
             }
         }
@@ -40,14 +39,6 @@ pipeline {
                         docker.image(REPOSITORY_NAME).push()
                     }
                 }
-            }
-        }
-    }
-
-    post {
-        always {
-            script {
-                sh 'docker-compose down'
             }
         }
     }
