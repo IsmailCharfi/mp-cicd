@@ -7,7 +7,9 @@
     "send-report-email": "node sendmail.js",
     "serve": "cd src/app && vue-cli-service serve",
     "build": "cd src/app && vue-cli-service build",
-    "lint": "cd src/app && vue-cli-service lint"
+    "lint": "cd src/app && vue-cli-service lint",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +25,8 @@
     "object-path": "^0.11.5",
     "toastify-js": "^1.12.0",
     "vue": "^2.6.14",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -60,5 +63,6 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "snyk": true
 }
