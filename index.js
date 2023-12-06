@@ -15,10 +15,11 @@ app.use("/api", router);
 const PORT = process.env.TEST_MODE ? 5051 : process.env.PORT ?? 5050;
 const DB_URL = process.env.DB_URL ?? "mongodb://127.0.0.1:27017/mp";
 
-mongoose
-  .connect(DB_URL)
-  .then(() => app.listen(PORT))
-  .then(() => console.log(`Listening on port ${PORT}`))
-  .catch((error) => console.error(error));
+mongoose.connect(DB_URL).catch((error) => console.error(error));
 
-module.exports = app;
+const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+module.exports = {
+  app,
+  server,
+};

@@ -1,6 +1,6 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const app = require("./index");
+const { app, server } = require("./index");
 const mongoose = require("mongoose");
 
 chai.use(chaiHttp);
@@ -73,6 +73,7 @@ describe("Todo API", () => {
       .close()
       .then(() => {
         console.log("Mongoose connection closed");
+        server.close(() => console.log("Server closed"));
         done();
       })
       .catch((err) => {
