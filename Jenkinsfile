@@ -19,8 +19,8 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose up -d'
-                    sh 'docker-compose exec app sh -c "npm test"'
-                    sh 'docker-compose up -d'
+                    sh 'docker exec mp-app npm test'
+                    sh 'docker-compose down'
                 }
             }
         }
