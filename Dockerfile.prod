@@ -10,6 +10,6 @@ COPY / .
 
 RUN npm run build
 
-CMD ['node', 'index.js']
+CMD [ "node" , "index.js" ]
 
 EXPOSE 5050
