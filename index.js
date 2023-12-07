@@ -3,12 +3,14 @@ const router = require("./src/api/router");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
+const prometheusMiddleware = require('express-prometheus-middleware');
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+app.use(prometheusMiddleware({ metricsPath: '/metrics' }));
 app.use(express.static(path.join(__dirname, "src", "app", "dist")));
 app.use("/api", router);
 
