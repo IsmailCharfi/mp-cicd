@@ -42,10 +42,12 @@ pipeline {
             }
         }
 
-        stage ("Deployment") {
+        stage ("Deploy to EKS") {
             steps {
                 script {
-                    sh 'echo update kube cluster'
+                    sh 'kubectl delete deployment --all'
+                    sh 'kubectl apply -f ./deployments/deployment.yaml'
+
                 }
             }
         }
