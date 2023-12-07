@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'app'
+    static_configs:
+      - targets: ['test-app:6060']
+
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['test-mongodb:29000']
