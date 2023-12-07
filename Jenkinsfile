@@ -41,12 +41,11 @@ pipeline {
                 }
             }
         }
-        stage ("Push image to dockerhub") {
+
+        stage ("Deployment") {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.image(REPOSITORY_NAME).push()
-                    }
+                    sh 'echo update kube cluster'
                 }
             }
         }
