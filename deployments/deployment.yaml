@@ -30,6 +30,6 @@ spec:
           image: ismailcharfi/mp-cicd:latest
           env:
             - name: DB_URL
-              value: "mongodb+srv://project_user:Kitzj08eMzkLErkQ@monkeytype-prod.nvl5jk2.mongodb.net/?retryWrites=true&w=majority"
+              value: mongodb+srv://project_user:Kitzj08eMzkLErkQ@monkeytype-prod.nvl5jk2.mongodb.net/?retryWrites=true&w=majority
           ports:
             - containerPort: 5050
