@@ -1,0 +1,38 @@
+version: "3"
+services:
+  test-app:
+    container_name: test-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["npm", "start"]
+    ports:
+      - "6060:6060"
+    depends_on:
+      - test-mongodb
+    environment:
+      PORT: 6060
+      DB_URL: mongodb://test-mongodb:27017/mp
+  test-mongodb:
+    container_name: test-mongodb
+    image: "mongo"
+    ports:
+      - "29000:27017"
+  test-grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    depends_on:
+      - test-prometheus
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+  test-prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.test.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9091:9090"
