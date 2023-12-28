@@ -18,7 +18,7 @@
     "express": "^4.18.2",
     "express-prometheus-middleware": "^1.2.0",
     "mocha-email-reporter": "^1.1.0",
-    "mongoose": "^8.0.2",
+    "mongoose": "^8.0.3",
     "nodemailer": "^6.9.7",
     "object-path": "^0.11.5",
     "toastify-js": "^1.12.0",
